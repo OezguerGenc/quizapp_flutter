@@ -27,7 +27,7 @@ class MainScreen extends StatelessWidget {
             ),
             MenuButton(
               onPressed: () {
-                print("object");
+                Navigator.pushNamed(context, "quizscreen");
               },
             ),
             Container(
