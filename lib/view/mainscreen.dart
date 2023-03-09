@@ -25,7 +25,11 @@ class MainScreen extends StatelessWidget {
                 ),
               ),
             ),
-            MenuButton(),
+            MenuButton(
+              onPressed: () {
+                print("object");
+              },
+            ),
             Padding(
               padding: EdgeInsets.only(bottom: 40.0),
               child: Text(

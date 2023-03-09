@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MenuButton extends StatelessWidget {
-  const MenuButton({Key? key}) : super(key: key);
+  final VoidCallback onPressed;
+  const MenuButton({Key? key, required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +18,7 @@ class MenuButton extends StatelessWidget {
         ),
       ),
       child: ElevatedButton(
-        onPressed: () {
-          // Hier kann der Button mit einer Funktion belegt werden
-        },
+        onPressed: onPressed,
         child: Text(
           'Start',
           style: TextStyle(
