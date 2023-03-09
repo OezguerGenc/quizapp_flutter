@@ -7,8 +7,10 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Hauptmenü'),
+        title: Text('Hauptmenü', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.black,
       ),
       body: Center(
         child: Column(
@@ -20,9 +22,7 @@ class MainScreen extends StatelessWidget {
               child: Text(
                 'QuizApp',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 40,
-                ),
+                style: TextStyle(fontSize: 40, color: Colors.white),
               ),
             ),
             MenuButton(
@@ -30,11 +30,18 @@ class MainScreen extends StatelessWidget {
                 print("object");
               },
             ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 40.0),
-              child: Text(
-                'Made by\nÖzgür Genc',
-                textAlign: TextAlign.center,
+            Container(
+              width: 100,
+              height: 100,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 40.0),
+                child: Text(
+                  'Made by\nÖzgür Genc',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
           ],
