@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutterquizapp/widget/answerbutton.dart';
 import 'package:flutterquizapp/widget/questioncard.dart';
 
 class QuizScreen extends StatelessWidget {
-  const QuizScreen({Key? key}) : super(key: key);
+  QuizScreen({Key? key}) : super(key: key);
+
+  bool isSelected = true;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,10 @@ class QuizScreen extends StatelessWidget {
         ),
       ),
       body: Column(
-        children: [QuestionCard(text: "Test")],
+        children: [
+          QuestionCard(text: "Test"),
+          AnswerButton(text: "text", isSelected: isSelected, onSelect: () {})
+        ],
       ),
     );
   }
