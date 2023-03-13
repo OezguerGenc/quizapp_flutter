@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterquizapp/widget/menubutton.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/quizprovider.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -26,8 +29,10 @@ class MainScreen extends StatelessWidget {
               ),
             ),
             MenuButton(
-              onPressed: () {
-                print("object");
+              onPressed: () async {
+                await context.read<QuizProvider>().initQuestions();
+                //Navigator.pushNamed(context, "quizscreen");
+                print("TEST");
               },
             ),
             Container(
