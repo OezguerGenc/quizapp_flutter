@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterquizapp/widget/answerbutton.dart';
 import 'package:flutterquizapp/widget/questioncard.dart';
+import 'package:provider/provider.dart';
 
 class QuizScreen extends StatelessWidget {
   QuizScreen({Key? key}) : super(key: key);
