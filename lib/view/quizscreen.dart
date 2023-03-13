@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterquizapp/provider/quizprovider.dart';
 import 'package:flutterquizapp/widget/answerbutton.dart';
 import 'package:flutterquizapp/widget/questioncard.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +22,8 @@ class QuizScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          QuestionCard(text: "Test"),
+          QuestionCard(
+              text: context.watch<QuizProvider>().questionlist[0].text),
           AnswerButton(text: "text", isSelected: isSelected, onSelect: () {})
         ],
       ),

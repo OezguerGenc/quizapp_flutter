@@ -6,20 +6,17 @@ class QuizModel {
   final databaseRef = FirebaseDatabase.instance.ref().child("questions");
 
   Future<List<Question>> loadQuestions() async {
-    final List<Question> questionlist = [];
-    databaseRef.onValue.listen((event) {
+    List<Question> questionlist = [];
+    await databaseRef.onValue.listen((event) {
       for (var i = 0; i < 100; i++) {
         if (event.snapshot.child("$i/text").value != null) {
           List<Answer> answers = [];
           for (var j = 0; j < 4; j++) {
             if (event.snapshot.child("$i/answer/$j/text").value != null) {
+              print(event.snapshot.child("$i/answer/$j/text").value.toString());
               answers.add(Answer(
-                  correct: event.snapshot.child("$i/answer/$j/correct").value
-                      as bool,
-                  text: event.snapshot
-                      .child("$i/answer/$j/text")
-                      .value
-                      .toString()));
+                  event.snapshot.child("$i/answer/$j/correct").value as bool,
+                  event.snapshot.child("$i/answer/$j/text").value.toString()));
             } else {
               break;
             }
