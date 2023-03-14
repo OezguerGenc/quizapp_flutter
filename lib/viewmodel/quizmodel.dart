@@ -64,4 +64,8 @@ class QuizModel {
       isSelectedList[0] = true;
     }
   }
+
+  void increaseQuestionIndex() {
+    questionindex++;
+  }
 }

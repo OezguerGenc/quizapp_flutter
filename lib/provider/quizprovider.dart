@@ -13,7 +13,8 @@ class QuizProvider with ChangeNotifier {
   }
 
   void increaseQuestionIndex() {
-    quizModel.questionindex++;
+    if (quizModel.questionindex < questionlist.length - 1)
+      quizModel.increaseQuestionIndex();
     notifyListeners();
   }
 
