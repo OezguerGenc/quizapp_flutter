@@ -13,6 +13,8 @@ class QuizScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
         backgroundColor: Colors.black,
         title: const Text(
           'Quiz',
