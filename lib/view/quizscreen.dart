@@ -15,7 +15,7 @@ class QuizScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(
+        title: const Text(
           'Quiz',
           style: TextStyle(color: Colors.white),
         ),
@@ -23,8 +23,11 @@ class QuizScreen extends StatelessWidget {
       body: Column(
         children: [
           QuestionCard(
-              text: context.watch<QuizProvider>().questionlist[0].text),
-          AnswerButton(text: "text", isSelected: isSelected, onSelect: () {})
+              text: context
+                  .watch<QuizProvider>()
+                  .questionlist[context.read<QuizProvider>().getQuestionIndex()]
+                  .text),
+          AnswerButton(text: "text", isSelected: isSelected, onSelect: () {}),
         ],
       ),
     );

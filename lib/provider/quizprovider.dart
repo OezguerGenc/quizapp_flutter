@@ -7,7 +7,17 @@ class QuizProvider with ChangeNotifier {
 
   List<Question> questionlist = [];
 
-  Future<void> initQuestions() async {
+  Future initQuestions() async {
     questionlist = await quizModel.loadQuestions();
+    notifyListeners();
+  }
+
+  void increaseQuestionIndex() {
+    quizModel.questionindex++;
+    notifyListeners();
+  }
+
+  int getQuestionIndex() {
+    return quizModel.questionindex;
   }
 }
