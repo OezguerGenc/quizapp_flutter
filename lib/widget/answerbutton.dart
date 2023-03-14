@@ -23,7 +23,7 @@ class _AnswerButtonState extends State<AnswerButton> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.3,
+          width: MediaQuery.of(context).size.width * 0.8,
           height: 50,
           child: InkWell(
             onTap: () {

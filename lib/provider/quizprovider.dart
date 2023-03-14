@@ -20,4 +20,13 @@ class QuizProvider with ChangeNotifier {
   int getQuestionIndex() {
     return quizModel.questionindex;
   }
+
+  List<bool> getIsSelected() {
+    return quizModel.isSelectedList;
+  }
+
+  void toggleIsSelected(int index) {
+    quizModel.toggleIsSelected(index);
+    notifyListeners();
+  }
 }

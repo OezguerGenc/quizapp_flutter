@@ -7,8 +7,6 @@ import 'package:provider/provider.dart';
 class QuizScreen extends StatelessWidget {
   QuizScreen({Key? key}) : super(key: key);
 
-  bool isSelected = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +25,26 @@ class QuizScreen extends StatelessWidget {
                   .watch<QuizProvider>()
                   .questionlist[context.read<QuizProvider>().getQuestionIndex()]
                   .text),
-          AnswerButton(text: "text", isSelected: isSelected, onSelect: () {}),
+          AnswerButton(
+              text: context
+                  .watch<QuizProvider>()
+                  .questionlist[context.read<QuizProvider>().getQuestionIndex()]
+                  .answers[0]
+                  .text,
+              isSelected: context.read<QuizProvider>().getIsSelected().first,
+              onSelect: () {
+                context.read<QuizProvider>().toggleIsSelected(0);
+              }),
+          AnswerButton(
+              text: context
+                  .watch<QuizProvider>()
+                  .questionlist[context.read<QuizProvider>().getQuestionIndex()]
+                  .answers[1]
+                  .text,
+              isSelected: context.read<QuizProvider>().getIsSelected()[1],
+              onSelect: () {
+                context.read<QuizProvider>().toggleIsSelected(1);
+              }),
         ],
       ),
     );

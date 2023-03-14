@@ -4,6 +4,7 @@ import 'package:flutterquizapp/model/question.dart';
 
 class QuizModel {
   final databaseRef = FirebaseDatabase.instance.ref().child("questions");
+  List<bool> isSelectedList = [true, false];
   int questionindex = 0;
 
   Future<List<Question>> loadQuestions() async {
@@ -21,6 +22,10 @@ class QuizModel {
                   .get()
                   .then((value) => value.value) !=
               null) {
+            print(await databaseRef
+                .child("$i/answer/$j/text")
+                .get()
+                .then((value) => value.value.toString()));
             answers.add(Answer(
                 await databaseRef
                     .child("$i/answer/$j/correct")
@@ -40,11 +45,22 @@ class QuizModel {
                 .get()
                 .then((value) => value.value.toString()),
             answers));
-        answers.clear();
       } else {
         break;
       }
     }
+    print(questionlist[0].answers.length);
+
     return questionlist;
+  }
+
+  void toggleIsSelected(int index) {
+    if (index == 0) {
+      isSelectedList[index] = !isSelectedList[index];
+      isSelectedList[index + 1] = !isSelectedList[index + 1];
+    } else {
+      isSelectedList[index] = !isSelectedList[index];
+      isSelectedList[index - 1] = !isSelectedList[index - 1];
+    }
   }
 }
