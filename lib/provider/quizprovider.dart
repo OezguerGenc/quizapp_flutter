@@ -7,7 +7,27 @@ class QuizProvider with ChangeNotifier {
 
   List<Question> questionlist = [];
 
-  Future<void> initQuestions() async {
+  Future initQuestions() async {
     questionlist = await quizModel.loadQuestions();
+    notifyListeners();
+  }
+
+  void increaseQuestionIndex() {
+    if (quizModel.questionindex < questionlist.length - 1)
+      quizModel.increaseQuestionIndex();
+    notifyListeners();
+  }
+
+  int getQuestionIndex() {
+    return quizModel.questionindex;
+  }
+
+  List<bool> getIsSelected() {
+    return quizModel.isSelectedList;
+  }
+
+  void toggleIsSelected(int index) {
+    quizModel.toggleIsSelected(index);
+    notifyListeners();
   }
 }

@@ -4,31 +4,68 @@ import 'package:flutterquizapp/model/question.dart';
 
 class QuizModel {
   final databaseRef = FirebaseDatabase.instance.ref().child("questions");
+  List<bool> isSelectedList = [true, false];
+  int questionindex = 0;
 
   Future<List<Question>> loadQuestions() async {
     List<Question> questionlist = [];
-    await databaseRef.onValue.listen((event) {
-      for (var i = 0; i < 100; i++) {
-        if (event.snapshot.child("$i/text").value != null) {
-          List<Answer> answers = [];
-          for (var j = 0; j < 4; j++) {
-            if (event.snapshot.child("$i/answer/$j/text").value != null) {
-              print(event.snapshot.child("$i/answer/$j/text").value.toString());
-              answers.add(Answer(
-                  event.snapshot.child("$i/answer/$j/correct").value as bool,
-                  event.snapshot.child("$i/answer/$j/text").value.toString()));
-            } else {
-              break;
-            }
+    for (var i = 0; i < 100; i++) {
+      if (await databaseRef
+              .child("$i/text")
+              .get()
+              .then((value) => value.value) !=
+          null) {
+        List<Answer> answers = [];
+        for (var j = 0; j < 4; j++) {
+          if (await databaseRef
+                  .child("$i/answer/$j/text")
+                  .get()
+                  .then((value) => value.value) !=
+              null) {
+            print(await databaseRef
+                .child("$i/answer/$j/text")
+                .get()
+                .then((value) => value.value.toString()));
+            answers.add(Answer(
+                await databaseRef
+                    .child("$i/answer/$j/correct")
+                    .get()
+                    .then((value) => value.value) as bool,
+                await databaseRef
+                    .child("$i/answer/$j/text")
+                    .get()
+                    .then((value) => value.value.toString())));
+          } else {
+            break;
           }
-          questionlist.add(Question(
-              event.snapshot.child("$i/text").value.toString(), answers));
-          answers.clear();
-        } else {
-          break;
         }
+        questionlist.add(Question(
+            await databaseRef
+                .child("$i/text")
+                .get()
+                .then((value) => value.value.toString()),
+            answers));
+      } else {
+        break;
       }
-    });
+    }
+    print(questionlist[0].answers.length);
+
     return questionlist;
+  }
+
+  void toggleIsSelected(int index) {
+    var tmp = isSelectedList[index];
+    for (var i = 0; i < isSelectedList.length; i++) {
+      isSelectedList[i] = false;
+    }
+    isSelectedList[index] = !tmp;
+    if (isSelectedList[0] == false && isSelectedList[1] == false) {
+      isSelectedList[0] = true;
+    }
+  }
+
+  void increaseQuestionIndex() {
+    questionindex++;
   }
 }

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutterquizapp/provider/quizprovider.dart';
 import 'package:flutterquizapp/widget/answerbutton.dart';
+import 'package:flutterquizapp/widget/nextbutton.dart';
 import 'package:flutterquizapp/widget/questioncard.dart';
 import 'package:provider/provider.dart';
 
 class QuizScreen extends StatelessWidget {
   QuizScreen({Key? key}) : super(key: key);
-
-  bool isSelected = true;
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +14,50 @@ class QuizScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(
+        title: const Text(
           'Quiz',
           style: TextStyle(color: Colors.white),
         ),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           QuestionCard(
-              text: context.watch<QuizProvider>().questionlist[0].text),
-          AnswerButton(text: "text", isSelected: isSelected, onSelect: () {})
+              text: context
+                  .watch<QuizProvider>()
+                  .questionlist[context.read<QuizProvider>().getQuestionIndex()]
+                  .text),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AnswerButton(
+                  text: context
+                      .watch<QuizProvider>()
+                      .questionlist[
+                          context.read<QuizProvider>().getQuestionIndex()]
+                      .answers[0]
+                      .text,
+                  isSelected:
+                      context.read<QuizProvider>().getIsSelected().first,
+                  onSelect: () {
+                    context.read<QuizProvider>().toggleIsSelected(0);
+                  }),
+              AnswerButton(
+                  text: context
+                      .watch<QuizProvider>()
+                      .questionlist[
+                          context.read<QuizProvider>().getQuestionIndex()]
+                      .answers[1]
+                      .text,
+                  isSelected: context.read<QuizProvider>().getIsSelected()[1],
+                  onSelect: () {
+                    context.read<QuizProvider>().toggleIsSelected(1);
+                  }),
+            ],
+          ),
+          NextButton(onPressed: () {
+            context.read<QuizProvider>().increaseQuestionIndex();
+          })
         ],
       ),
     );

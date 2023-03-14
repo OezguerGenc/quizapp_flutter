@@ -18,11 +18,14 @@ class QuestionCard extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.3,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(
-              text,
-              style: const TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
+            child: Center(
+              child: Text(
+                text,
+                style: const TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
           ),
