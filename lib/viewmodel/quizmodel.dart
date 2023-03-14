@@ -55,12 +55,13 @@ class QuizModel {
   }
 
   void toggleIsSelected(int index) {
-    if (index == 0) {
-      isSelectedList[index] = !isSelectedList[index];
-      isSelectedList[index + 1] = !isSelectedList[index + 1];
-    } else {
-      isSelectedList[index] = !isSelectedList[index];
-      isSelectedList[index - 1] = !isSelectedList[index - 1];
+    var tmp = isSelectedList[index];
+    for (var i = 0; i < isSelectedList.length; i++) {
+      isSelectedList[i] = false;
+    }
+    isSelectedList[index] = !tmp;
+    if (isSelectedList[0] == false && isSelectedList[1] == false) {
+      isSelectedList[0] = true;
     }
   }
 }
