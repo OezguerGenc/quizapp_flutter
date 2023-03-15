@@ -1,23 +1,50 @@
 import 'package:flutter/material.dart';
 
 class StatsOverView extends StatelessWidget {
-  const StatsOverView({super.key});
+  StatsOverView({super.key});
+
+  final TextStyle textstyle1 =
+      const TextStyle(color: Colors.greenAccent, fontSize: 24);
+  final TextStyle textstyle2 =
+      const TextStyle(color: Colors.redAccent, fontSize: 24);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      width: MediaQuery.of(context).size.width - 50,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Richtige Antworten:"),
-              Text("0"),
+              Text(
+                "Richtige Antworten:",
+                textAlign: TextAlign.center,
+                style: textstyle1,
+              ),
+              Padding(padding: EdgeInsets.symmetric(horizontal: 8)),
+              Text(
+                "0",
+                style: textstyle1,
+              ),
             ],
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Falsche Antworten:"),
-              Text("0"),
+              Text(
+                "Falsche Antworten:",
+                style: textstyle2,
+              ),
+              Padding(padding: EdgeInsets.symmetric(horizontal: 8)),
+              Text(
+                "0",
+                style: textstyle2,
+              ),
             ],
           ),
         ],

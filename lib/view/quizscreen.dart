@@ -60,6 +60,8 @@ class QuizScreen extends StatelessWidget {
           NextButton(onPressed: () {
             if (context.read<QuizProvider>().checkIsLastQuestion()) {
               context.read<QuizProvider>().increaseQuestionIndex();
+            } else {
+              Navigator.popAndPushNamed(context, "statsscreen");
             }
           })
         ],

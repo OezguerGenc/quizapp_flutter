@@ -14,7 +14,7 @@ class DefaultButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 100),
+      padding: const EdgeInsets.only(bottom: 0),
       child: Container(
         width: width == 0 ? MediaQuery.of(context).size.width - 50 : width,
         height: 100,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterquizapp/provider/quizprovider.dart';
 import 'package:flutterquizapp/view/mainscreen.dart';
 import 'package:flutterquizapp/view/quizscreen.dart';
+import 'package:flutterquizapp/view/statsscreen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         "/": (context) => MainScreen(),
-        "quizscreen": (context) => QuizScreen()
+        "quizscreen": (context) => QuizScreen(),
+        "statsscreen": (context) => StatsScreen(),
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

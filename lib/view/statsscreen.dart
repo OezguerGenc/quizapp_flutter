@@ -8,6 +8,7 @@ class StatsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text(
           "Statistik",
@@ -19,12 +20,16 @@ class StatsScreen extends StatelessWidget {
       ),
       body: Center(
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(),
           StatsOverView(),
-          DefaultButton(btnText: "Hauptmenü", onPressed: () {})
+          DefaultButton(
+              btnText: "Hauptmenü",
+              onPressed: () {
+                Navigator.popAndPushNamed(context, "/");
+              })
         ],
       )),
     );
