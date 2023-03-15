@@ -13,9 +13,12 @@ class QuizProvider with ChangeNotifier {
   }
 
   void increaseQuestionIndex() {
-    if (quizModel.questionindex < questionlist.length - 1)
-      quizModel.increaseQuestionIndex();
+    quizModel.increaseQuestionIndex();
     notifyListeners();
+  }
+
+  bool checkIsLastQuestion() {
+    return quizModel.questionindex < questionlist.length - 1;
   }
 
   int getQuestionIndex() {
