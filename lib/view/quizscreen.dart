@@ -58,7 +58,9 @@ class QuizScreen extends StatelessWidget {
             ],
           ),
           NextButton(onPressed: () {
-            context.read<QuizProvider>().increaseQuestionIndex();
+            if (context.read<QuizProvider>().checkIsLastQuestion()) {
+              context.read<QuizProvider>().increaseQuestionIndex();
+            }
           })
         ],
       ),
