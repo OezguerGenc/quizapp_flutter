@@ -22,6 +22,20 @@ class QuizProvider with ChangeNotifier {
         .correct;
   }
 
+  bool getLoadingQuestions() {
+    return quizModel.loadingQuestions;
+  }
+
+  void loadingQuestionsStart() {
+    quizModel.loadingQuestions = true;
+    notifyListeners();
+  }
+
+  void loadingQuestionsCompleted() {
+    quizModel.loadingQuestions = false;
+    notifyListeners();
+  }
+
   bool checkIsLastQuestion() {
     return quizModel.questionindex < questionlist.length - 1;
   }

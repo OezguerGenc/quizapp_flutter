@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutterquizapp/widget/menubutton.dart';
 import 'package:provider/provider.dart';
-
 import '../provider/quizprovider.dart';
 
 class MainScreen extends StatelessWidget {
@@ -15,7 +12,7 @@ class MainScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Hauptmenü', style: TextStyle(color: Colors.white)),
+        title: const Text('Hauptmenü', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: Colors.black,
       ),
@@ -24,7 +21,7 @@ class MainScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 40.0),
               child: Text(
                 'QuizApp',
@@ -32,15 +29,45 @@ class MainScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 40, color: Colors.white),
               ),
             ),
-            MenuButton(
-              onPressed: () async {
-                await context.read<QuizProvider>().initQuestions();
-
-                Navigator.pushNamed(context, "quizscreen");
-                print("TEST");
-              },
-            ),
-            Container(
+            context.watch<QuizProvider>().quizModel.loadingQuestions
+                ? CircularProgressIndicator()
+                : MenuButton(
+                    onPressed: () async {
+                      context.read<QuizProvider>().loadingQuestionsStart();
+                      try {
+                        await context.read<QuizProvider>().initQuestions();
+                        if (context
+                            .read<QuizProvider>()
+                            .questionlist
+                            .isNotEmpty) {
+                          context
+                              .read<QuizProvider>()
+                              .loadingQuestionsCompleted();
+                          Navigator.pushNamed(context, "quizscreen");
+                        }
+                      } catch (e) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Fehler'),
+                            content: Text(e.toString()),
+                            actions: [
+                              TextButton(
+                                onPressed: () => {
+                                  context
+                                      .read<QuizProvider>()
+                                      .loadingQuestionsCompleted(),
+                                  Navigator.pop(context)
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    },
+                  ),
+            const SizedBox(
               width: 100,
               height: 100,
               child: Padding(
