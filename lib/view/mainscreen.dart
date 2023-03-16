@@ -14,7 +14,9 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Hauptmenü', style: TextStyle(color: Colors.white)),
+        centerTitle: true,
         backgroundColor: Colors.black,
       ),
       body: Center(
