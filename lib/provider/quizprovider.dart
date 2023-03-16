@@ -4,11 +4,10 @@ import 'package:flutterquizapp/viewmodel/quizmodel.dart';
 
 class QuizProvider with ChangeNotifier {
   final QuizModel quizModel = QuizModel();
-
   List<Question> questionlist = [];
 
   Future initQuestions() async {
-    questionlist = await quizModel.loadQuestions();
+    questionlist = (await quizModel.loadQuestions())!;
     notifyListeners();
   }
 
