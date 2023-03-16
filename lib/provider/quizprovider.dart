@@ -17,6 +17,12 @@ class QuizProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  bool checkAnswer() {
+    return questionlist[getQuestionIndex()]
+        .answers[getIsSelectedIndex()]
+        .correct;
+  }
+
   bool checkIsLastQuestion() {
     return quizModel.questionindex < questionlist.length - 1;
   }
@@ -29,8 +35,16 @@ class QuizProvider with ChangeNotifier {
     return quizModel.isSelectedList;
   }
 
+  int getIsSelectedIndex() {
+    return quizModel.isSelectedIndex;
+  }
+
   void toggleIsSelected(int index) {
     quizModel.toggleIsSelected(index);
     notifyListeners();
+  }
+
+  void resetQuestionIndex() {
+    quizModel.resetQuestionIndex();
   }
 }

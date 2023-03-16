@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterquizapp/provider/quizprovider.dart';
+import 'package:flutterquizapp/provider/statsprovider.dart';
 import 'package:flutterquizapp/widget/answerbutton.dart';
 import 'package:flutterquizapp/widget/nextbutton.dart';
 import 'package:flutterquizapp/widget/questioncard.dart';
@@ -58,8 +59,15 @@ class QuizScreen extends StatelessWidget {
             ],
           ),
           NextButton(onPressed: () {
+            if (context.read<QuizProvider>().checkAnswer()) {
+              context.read<StatsProvider>().increaseright();
+            } else {
+              context.read<StatsProvider>().increasenotright();
+            }
             if (context.read<QuizProvider>().checkIsLastQuestion()) {
               context.read<QuizProvider>().increaseQuestionIndex();
+            } else {
+              Navigator.popAndPushNamed(context, "statsscreen");
             }
           })
         ],
