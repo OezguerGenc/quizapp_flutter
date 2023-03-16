@@ -8,6 +8,7 @@ class QuizModel {
   List<bool> isSelectedList = [true, false];
   int questionindex = 0;
   int isSelectedIndex = 0;
+  bool loadingQuestions = false;
 
   Future<bool> checkSavedQuestions() async {
     final prefs = await SharedPreferences.getInstance();
@@ -15,12 +16,22 @@ class QuizModel {
     return prefs.getStringList("questionlist") == null;
   }
 
+  Future<int> getQuestListLength() async {
+    int questionListLength = 0;
+    await databaseRef.once().then((snapshot) {
+      var data = snapshot.snapshot;
+      questionListLength = data.children.length;
+    });
+    return questionListLength;
+  }
+
   Future<List<Question>?> loadQuestions() async {
     final prefs = await SharedPreferences.getInstance();
     List<Question>? questionlist = [];
+    int questionListLength = await getQuestListLength();
 
     if (await checkSavedQuestions()) {
-      for (var i = 0; i < 100; i++) {
+      for (var i = 0; i < questionListLength; i++) {
         if (await databaseRef
                 .child("$i/text")
                 .get()
@@ -33,10 +44,6 @@ class QuizModel {
                     .get()
                     .then((value) => value.value) !=
                 null) {
-              print(await databaseRef
-                  .child("$i/answer/$j/text")
-                  .get()
-                  .then((value) => value.value.toString()));
               answers.add(Answer(
                   await databaseRef
                       .child("$i/answer/$j/correct")
@@ -56,8 +63,9 @@ class QuizModel {
                   .get()
                   .then((value) => value.value.toString()),
               answers));
+          print(questionlist[i].text);
         } else {
-          break;
+          throw Exception("Fehler beim herunterladen der Fragen");
         }
       }
 
