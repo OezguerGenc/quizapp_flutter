@@ -6,6 +6,7 @@ class QuizModel {
   final databaseRef = FirebaseDatabase.instance.ref().child("questions");
   List<bool> isSelectedList = [true, false];
   int questionindex = 0;
+  int isSelectedIndex = 0;
 
   Future<List<Question>> loadQuestions() async {
     List<Question> questionlist = [];
@@ -55,6 +56,7 @@ class QuizModel {
   }
 
   void toggleIsSelected(int index) {
+    isSelectedIndex = index;
     var tmp = isSelectedList[index];
     for (var i = 0; i < isSelectedList.length; i++) {
       isSelectedList[i] = false;
@@ -67,5 +69,9 @@ class QuizModel {
 
   void increaseQuestionIndex() {
     questionindex++;
+  }
+
+  void resetQuestionIndex() {
+    questionindex = 0;
   }
 }

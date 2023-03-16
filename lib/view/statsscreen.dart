@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutterquizapp/provider/quizprovider.dart';
+import 'package:flutterquizapp/provider/statsprovider.dart';
 import 'package:flutterquizapp/widget/defaultbutton.dart';
 import 'package:flutterquizapp/widget/statsoverview.dart';
+import 'package:provider/provider.dart';
 
 class StatsScreen extends StatelessWidget {
   const StatsScreen({super.key});
@@ -28,6 +31,8 @@ class StatsScreen extends StatelessWidget {
           DefaultButton(
               btnText: "Hauptmenü",
               onPressed: () {
+                context.read<StatsProvider>().clearstats();
+                context.read<QuizProvider>().resetQuestionIndex();
                 Navigator.popAndPushNamed(context, "/");
               })
         ],

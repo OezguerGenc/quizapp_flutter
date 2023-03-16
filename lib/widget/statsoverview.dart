@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutterquizapp/provider/statsprovider.dart';
+import 'package:provider/provider.dart';
 
 class StatsOverView extends StatelessWidget {
   StatsOverView({super.key});
@@ -27,7 +29,7 @@ class StatsOverView extends StatelessWidget {
               ),
               Padding(padding: EdgeInsets.symmetric(horizontal: 8)),
               Text(
-                "0",
+                context.read<StatsProvider>().getRight().toString(),
                 style: textstyle1,
               ),
             ],
@@ -42,7 +44,7 @@ class StatsOverView extends StatelessWidget {
               ),
               Padding(padding: EdgeInsets.symmetric(horizontal: 8)),
               Text(
-                "0",
+                context.read<StatsProvider>().getNotRight().toString(),
                 style: textstyle2,
               ),
             ],
