@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutterquizapp/provider/languageprovider.dart';
 import 'package:flutterquizapp/provider/quizprovider.dart';
 import 'package:flutterquizapp/provider/statsprovider.dart';
+import 'package:flutterquizapp/ressource/strings.dart';
 import 'package:flutterquizapp/widget/defaultbutton.dart';
 import 'package:flutterquizapp/widget/statsoverview.dart';
 import 'package:provider/provider.dart';
@@ -13,8 +15,10 @@ class StatsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text(
-          "Statistik",
+        title: Text(
+          AppStrings.language[context
+              .read<LanguageProvider>()
+              .getLanguageCode()]!["stats_appbar_title"],
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,

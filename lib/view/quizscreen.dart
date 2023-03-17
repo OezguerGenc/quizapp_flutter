@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutterquizapp/provider/languageprovider.dart';
 import 'package:flutterquizapp/provider/quizprovider.dart';
 import 'package:flutterquizapp/provider/statsprovider.dart';
+import 'package:flutterquizapp/ressource/strings.dart';
 import 'package:flutterquizapp/widget/answerbutton.dart';
 import 'package:flutterquizapp/widget/nextbutton.dart';
 import 'package:flutterquizapp/widget/questioncard.dart';
@@ -17,8 +19,10 @@ class QuizScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: Colors.black,
-        title: const Text(
-          'Quiz',
+        title: Text(
+          AppStrings.language[context
+              .read<LanguageProvider>()
+              .getLanguageCode()]!["quiz_appbar_title"],
           style: TextStyle(color: Colors.white),
         ),
       ),
