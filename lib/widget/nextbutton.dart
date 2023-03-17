@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutterquizapp/provider/languageprovider.dart';
+import 'package:flutterquizapp/ressource/strings.dart';
+import 'package:provider/provider.dart';
 
 class NextButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -22,7 +25,9 @@ class NextButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: onPressed,
           child: Text(
-            'Nächste Frage',
+            AppStrings.language[context
+                .read<LanguageProvider>()
+                .getLanguageCode()]!["quiz_nextquestionbtn"],
             style: TextStyle(
               fontSize: 40,
               color: Colors.white,
