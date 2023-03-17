@@ -1,18 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutterquizapp/provider/languageprovider.dart';
+import 'package:flutterquizapp/ressource/strings.dart';
 import 'package:flutterquizapp/widget/menubutton.dart';
 import 'package:provider/provider.dart';
 import '../provider/quizprovider.dart';
 
-class MainScreen extends StatelessWidget {
-  const MainScreen({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Hauptmenü', style: TextStyle(color: Colors.white)),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.language,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              _openLanguageSelectionDialog(context);
+            },
+          ),
+        ],
+        title: Text(
+            AppStrings.language[context
+                .read<LanguageProvider>()
+                .getLanguageCode()]!["mainmenu_appbar_title"],
+            style: TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: Colors.black,
       ),
@@ -21,10 +43,12 @@ class MainScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(top: 40.0),
               child: Text(
-                'QuizApp',
+                AppStrings.language[context
+                    .read<LanguageProvider>()
+                    .getLanguageCode()]!["mainmenu_title"],
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 40, color: Colors.white),
               ),
@@ -67,13 +91,15 @@ class MainScreen extends StatelessWidget {
                       }
                     },
                   ),
-            const SizedBox(
+            SizedBox(
               width: 100,
               height: 100,
               child: Padding(
                 padding: EdgeInsets.only(bottom: 40.0),
                 child: Text(
-                  'Made by\nÖzgür Genc',
+                  AppStrings.language[context
+                      .read<LanguageProvider>()
+                      .getLanguageCode()]!["mainmenu_madeby"],
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
@@ -85,5 +111,47 @@ class MainScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _openLanguageSelectionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Sprache auswählen'),
+          content: Container(
+            width: double.maxFinite,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: context
+                  .watch<LanguageProvider>()
+                  .getAvailableLanguages()
+                  .length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(context
+                      .watch<LanguageProvider>()
+                      .getAvailableLanguages()[index]),
+                  onTap: () {
+                    // Hier wird der Code ausgeführt, wenn eine Sprache ausgewählt wird
+                    context.read<LanguageProvider>().switchLanguage(context
+                        .read<LanguageProvider>()
+                        .getAvailableLanguages()[index]);
+                    setState(() {});
+                    Navigator.pop(context);
+                  },
+                );
+              },
+            ),
+          ),
+        );
+      },
+    ).then((selectedLanguage) {
+      // Hier wird der Code ausgeführt, wenn eine Sprache ausgewählt und der Dialog geschlossen wurde
+      if (selectedLanguage != null) {
+        // Hier können Sie die ausgewählte Sprache verwenden
+        print('Die ausgewählte Sprache ist: $selectedLanguage');
+      }
+    });
   }
 }
