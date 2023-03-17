@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutterquizapp/provider/languageprovider.dart';
 import 'package:flutterquizapp/provider/statsprovider.dart';
+import 'package:flutterquizapp/ressource/strings.dart';
 import 'package:provider/provider.dart';
 
 class StatsOverView extends StatelessWidget {
@@ -23,7 +25,10 @@ class StatsOverView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "Richtige Antworten:",
+                AppStrings.language[context
+                        .read<LanguageProvider>()
+                        .getLanguageCode()]!["stats_right_answers"] +
+                    ":",
                 textAlign: TextAlign.center,
                 style: textstyle1,
               ),
@@ -39,7 +44,10 @@ class StatsOverView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "Falsche Antworten:",
+                AppStrings.language[context
+                        .read<LanguageProvider>()
+                        .getLanguageCode()]!["stats_not_right_answers"] +
+                    ":",
                 style: textstyle2,
               ),
               Padding(padding: EdgeInsets.symmetric(horizontal: 8)),
