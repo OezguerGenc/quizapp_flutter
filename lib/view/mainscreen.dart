@@ -132,6 +132,8 @@ class _MainScreenState extends State<MainScreen> {
                   title: Text(context
                       .watch<LanguageProvider>()
                       .getAvailableLanguages()[index]),
+                  trailing: Image.asset(
+                      context.read<LanguageProvider>().getFlagImagePath(index)),
                   onTap: () {
                     // Hier wird der Code ausgeführt, wenn eine Sprache ausgewählt wird
                     context.read<LanguageProvider>().switchLanguage(context
