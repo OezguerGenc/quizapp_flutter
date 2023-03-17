@@ -9,6 +9,10 @@ class LanguageProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  String getFlagImagePath(int index) {
+    return languageModel.flagimagepaths[index];
+  }
+
   String getLanguageCode() {
     return languageModel.languageCode;
   }
