@@ -6,8 +6,8 @@ class QuizProvider with ChangeNotifier {
   final QuizModel quizModel = QuizModel();
   List<Question> questionlist = [];
 
-  Future initQuestions() async {
-    questionlist = (await quizModel.loadQuestions())!;
+  Future initQuestions(String languageCode) async {
+    questionlist = (await quizModel.loadQuestions(languageCode))!;
     notifyListeners();
   }
 
@@ -59,5 +59,9 @@ class QuizProvider with ChangeNotifier {
 
   void resetQuestionIndex() {
     quizModel.resetQuestionIndex();
+  }
+
+  void changeQuestionListPath(String languageTitle) {
+    quizModel.changeQuestionListPath(languageTitle);
   }
 }

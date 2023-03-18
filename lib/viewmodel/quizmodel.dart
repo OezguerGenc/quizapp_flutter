@@ -4,19 +4,21 @@ import 'package:flutterquizapp/model/question.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class QuizModel {
-  final databaseRef = FirebaseDatabase.instance.ref().child("questions");
   List<bool> isSelectedList = [true, false];
   int questionindex = 0;
   int isSelectedIndex = 0;
   bool loadingQuestions = false;
+  String questionListPath = "questions";
 
-  Future<bool> checkSavedQuestions() async {
+  Future<bool> checkSavedQuestions(String languageCode) async {
     final prefs = await SharedPreferences.getInstance();
 
-    return prefs.getStringList("questionlist") == null;
+    return prefs.getStringList("questionlist" + languageCode.toUpperCase()) ==
+        null;
   }
 
   Future<int> getQuestListLength() async {
+    final databaseRef = FirebaseDatabase.instance.ref().child(questionListPath);
     int questionListLength = 0;
     await databaseRef.once().then((snapshot) {
       var data = snapshot.snapshot;
@@ -25,12 +27,13 @@ class QuizModel {
     return questionListLength;
   }
 
-  Future<List<Question>?> loadQuestions() async {
+  Future<List<Question>?> loadQuestions(String languageCode) async {
+    final databaseRef = FirebaseDatabase.instance.ref().child(questionListPath);
     final prefs = await SharedPreferences.getInstance();
     List<Question>? questionlist = [];
     int questionListLength = await getQuestListLength();
 
-    if (await checkSavedQuestions()) {
+    if (await checkSavedQuestions(languageCode)) {
       for (var i = 0; i < questionListLength; i++) {
         if (await databaseRef
                 .child("$i/text")
@@ -69,10 +72,11 @@ class QuizModel {
         }
       }
 
-      await prefs.setStringList(
-          "questionlist", questionlist.map((q) => q.toJson()).toList());
+      await prefs.setStringList("questionlist" + languageCode.toUpperCase(),
+          questionlist.map((q) => q.toJson()).toList());
     } else {
-      List<String>? questionStringList = prefs.getStringList('questionlist');
+      List<String>? questionStringList =
+          prefs.getStringList('questionlist' + languageCode.toUpperCase());
       questionlist =
           questionStringList?.map((q) => Question.fromJson(q)).toList();
     }
@@ -98,5 +102,17 @@ class QuizModel {
 
   void resetQuestionIndex() {
     questionindex = 0;
+  }
+
+  void changeQuestionListPath(String languageTitle) {
+    switch (languageTitle) {
+      case "Deutsch":
+        questionListPath = "questions";
+        break;
+      case "English":
+        questionListPath = "questionsEN";
+        break;
+      default:
+    }
   }
 }
