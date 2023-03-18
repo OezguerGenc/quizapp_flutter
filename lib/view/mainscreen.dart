@@ -59,7 +59,8 @@ class _MainScreenState extends State<MainScreen> {
                     onPressed: () async {
                       context.read<QuizProvider>().loadingQuestionsStart();
                       try {
-                        await context.read<QuizProvider>().initQuestions();
+                        await context.read<QuizProvider>().initQuestions(
+                            context.read<LanguageProvider>().getLanguageCode());
                         if (context
                             .read<QuizProvider>()
                             .questionlist
@@ -137,6 +138,9 @@ class _MainScreenState extends State<MainScreen> {
                   onTap: () {
                     // Hier wird der Code ausgeführt, wenn eine Sprache ausgewählt wird
                     context.read<LanguageProvider>().switchLanguage(context
+                        .read<LanguageProvider>()
+                        .getAvailableLanguages()[index]);
+                    context.read<QuizProvider>().changeQuestionListPath(context
                         .read<LanguageProvider>()
                         .getAvailableLanguages()[index]);
                     setState(() {});
