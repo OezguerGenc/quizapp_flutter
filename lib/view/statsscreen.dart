@@ -33,7 +33,9 @@ class StatsScreen extends StatelessWidget {
           SizedBox(),
           StatsOverView(),
           DefaultButton(
-              btnText: "Hauptmenü",
+              btnText: AppStrings.language[context
+                  .read<LanguageProvider>()
+                  .getLanguageCode()]!["stats_mainmenubtn"],
               onPressed: () {
                 context.read<StatsProvider>().clearstats();
                 context.read<QuizProvider>().resetQuestionIndex();
