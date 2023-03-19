@@ -15,66 +15,106 @@ class QuizScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: Colors.black,
-        title: Text(
-          AppStrings.language[context
-              .read<LanguageProvider>()
-              .getLanguageCode()]!["quiz_appbar_title"],
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          QuestionCard(
-              text: context
-                  .watch<QuizProvider>()
-                  .questionlist[context.read<QuizProvider>().getQuestionIndex()]
-                  .text),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AnswerButton(
-                  text: context
-                      .watch<QuizProvider>()
-                      .questionlist[
-                          context.read<QuizProvider>().getQuestionIndex()]
-                      .answers[0]
-                      .text,
-                  isSelected:
-                      context.read<QuizProvider>().getIsSelected().first,
-                  onSelect: () {
-                    context.read<QuizProvider>().toggleIsSelected(0);
-                  }),
-              AnswerButton(
-                  text: context
-                      .watch<QuizProvider>()
-                      .questionlist[
-                          context.read<QuizProvider>().getQuestionIndex()]
-                      .answers[1]
-                      .text,
-                  isSelected: context.read<QuizProvider>().getIsSelected()[1],
-                  onSelect: () {
-                    context.read<QuizProvider>().toggleIsSelected(1);
-                  }),
-            ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.red, Colors.blue],
           ),
-          NextButton(onPressed: () {
-            if (context.read<QuizProvider>().checkAnswer()) {
-              context.read<StatsProvider>().increaseright();
-            } else {
-              context.read<StatsProvider>().increasenotright();
-            }
-            if (context.read<QuizProvider>().checkIsLastQuestion()) {
-              context.read<QuizProvider>().increaseQuestionIndex();
-            } else {
-              Navigator.popAndPushNamed(context, "statsscreen");
-            }
-          })
-        ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Container(
+                height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 50,
+                    ),
+                    SizedBox(
+                      child: Text(
+                          AppStrings.language[context
+                              .read<LanguageProvider>()
+                              .getLanguageCode()]!["quiz_appbar_title"],
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    SizedBox(
+                      width: 50,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                QuestionCard(
+                    text: context
+                        .watch<QuizProvider>()
+                        .questionlist[
+                            context.read<QuizProvider>().getQuestionIndex()]
+                        .text),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AnswerButton(
+                          text: context
+                              .watch<QuizProvider>()
+                              .questionlist[context
+                                  .read<QuizProvider>()
+                                  .getQuestionIndex()]
+                              .answers[0]
+                              .text,
+                          isSelected: context
+                              .read<QuizProvider>()
+                              .getIsSelected()
+                              .first,
+                          onSelect: () {
+                            context.read<QuizProvider>().toggleIsSelected(0);
+                          }),
+                      AnswerButton(
+                          text: context
+                              .watch<QuizProvider>()
+                              .questionlist[context
+                                  .read<QuizProvider>()
+                                  .getQuestionIndex()]
+                              .answers[1]
+                              .text,
+                          isSelected:
+                              context.read<QuizProvider>().getIsSelected()[1],
+                          onSelect: () {
+                            context.read<QuizProvider>().toggleIsSelected(1);
+                          }),
+                    ],
+                  ),
+                ),
+                NextButton(onPressed: () {
+                  if (context.read<QuizProvider>().checkAnswer()) {
+                    context.read<StatsProvider>().increaseright();
+                  } else {
+                    context.read<StatsProvider>().increasenotright();
+                  }
+                  if (context.read<QuizProvider>().checkIsLastQuestion()) {
+                    context.read<QuizProvider>().increaseQuestionIndex();
+                  } else {
+                    Navigator.popAndPushNamed(context, "statsscreen");
+                  }
+                })
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
