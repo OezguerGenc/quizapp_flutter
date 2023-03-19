@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DefaultButton extends StatelessWidget {
   final String btnText;
@@ -30,7 +31,7 @@ class DefaultButton extends StatelessWidget {
           onPressed: onPressed,
           child: Text(
             btnText,
-            style: TextStyle(
+            style: GoogleFonts.cabinSketch(
               fontSize: 40,
               color: Colors.white,
             ),
