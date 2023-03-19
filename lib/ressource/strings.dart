@@ -5,6 +5,7 @@ class AppStrings {
       'mainmenu_appbar_title': 'Hauptmenü',
       'mainmenu_title': "QuizApp",
       'mainmenu_startbtn': "Start",
+      'mainmenu_creditsbtn': "Credits",
       'mainmenu_madeby': "Entwickelt von\nÖzgür Genc",
       //Quiz
       'quiz_appbar_title': 'Quiz',
@@ -20,6 +21,7 @@ class AppStrings {
       'mainmenu_appbar_title': 'Mainmenu',
       'mainmenu_title': "QuizApp",
       'mainmenu_startbtn': "Start",
+      'mainmenu_creditsbtn': "Credits",
       'mainmenu_madeby': "Developed by\nÖzgür Genc",
       //Quiz
       'quiz_appbar_title': 'Quiz',
