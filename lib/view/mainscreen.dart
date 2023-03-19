@@ -97,6 +97,7 @@ class _MainScreenState extends State<MainScreen> {
                                 btnText: AppStrings.language[context
                                     .read<LanguageProvider>()
                                     .getLanguageCode()]!["mainmenu_startbtn"],
+                                animated: true,
                                 onPressed: () async {
                                   context
                                       .read<QuizProvider>()
