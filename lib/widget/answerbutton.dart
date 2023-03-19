@@ -40,10 +40,10 @@ class _AnswerButtonState extends State<AnswerButton> {
                 height: 24,
                 width: 24,
                 decoration: BoxDecoration(
-                  color: widget.isSelected ? Colors.blue : Colors.transparent,
+                  color: widget.isSelected ? Colors.yellow : Colors.transparent,
                   border: Border.all(
                     width: 1,
-                    color: widget.isSelected ? Colors.blue : Colors.grey,
+                    color: widget.isSelected ? Colors.black : Colors.grey,
                   ),
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -52,7 +52,7 @@ class _AnswerButtonState extends State<AnswerButton> {
                       ? Icon(
                           Icons.check,
                           size: 16,
-                          color: Colors.white,
+                          color: Colors.black,
                         )
                       : null,
                 ),
@@ -65,7 +65,7 @@ class _AnswerButtonState extends State<AnswerButton> {
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: widget.isSelected ? Colors.blue : Colors.white,
+                    color: widget.isSelected ? Colors.yellow : Colors.white,
                   ),
                 ),
               ),
