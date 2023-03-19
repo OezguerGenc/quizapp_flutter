@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterquizapp/provider/languageprovider.dart';
 import 'package:flutterquizapp/ressource/strings.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class NextButton extends StatelessWidget {
@@ -28,7 +29,7 @@ class NextButton extends StatelessWidget {
             AppStrings.language[context
                 .read<LanguageProvider>()
                 .getLanguageCode()]!["quiz_nextquestionbtn"],
-            style: TextStyle(
+            style: GoogleFonts.cabinSketch(
               fontSize: 40,
               color: Colors.white,
             ),
