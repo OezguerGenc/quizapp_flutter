@@ -14,35 +14,56 @@ class StatsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: Text(
-          AppStrings.language[context
-              .read<LanguageProvider>()
-              .getLanguageCode()]!["stats_appbar_title"],
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.black,
-      ),
-      body: Center(
+      body: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.red, Colors.blue],
+            ),
+          ),
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(),
-          StatsOverView(),
-          DefaultButton(
-              btnText: AppStrings.language[context
-                  .read<LanguageProvider>()
-                  .getLanguageCode()]!["stats_mainmenubtn"],
-              onPressed: () {
-                context.read<StatsProvider>().clearstats();
-                context.read<QuizProvider>().resetQuestionIndex();
-                Navigator.popAndPushNamed(context, "/");
-              })
-        ],
-      )),
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 50,
+                    ),
+                    SizedBox(
+                      child: Text(
+                          AppStrings.language[context
+                              .read<LanguageProvider>()
+                              .getLanguageCode()]!["stats_appbar_title"],
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 34,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    SizedBox(
+                      width: 50,
+                    ),
+                  ],
+                ),
+              ),
+              StatsOverView(),
+              DefaultButton(
+                  btnText: AppStrings.language[context
+                      .read<LanguageProvider>()
+                      .getLanguageCode()]!["stats_mainmenubtn"],
+                  onPressed: () {
+                    context.read<StatsProvider>().clearstats();
+                    context.read<QuizProvider>().resetQuestionIndex();
+                    Navigator.popAndPushNamed(context, "/");
+                  })
+            ],
+          )),
     );
   }
 }
