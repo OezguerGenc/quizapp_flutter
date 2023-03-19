@@ -26,8 +26,8 @@ Um diese App auszuführen, benötigen Sie:
 - services/ - enthält Firebase-Verwaltungsdienste für die App
 - assets/ - enthält statische Dateien wie Bilder und Schriftarten
 - test/ - enthält Tests für die App
-- Verwendung
-- Registrieren Sie ein neues Konto oder melden Sie sich mit einem vorhandenen Konto an.
+
+### Verwendung
 - Wählen Sie Ihre bevorzugte Sprache für die App aus.
 - Klicken Sie auf "Start Quiz", um das Quiz zu starten.
 - Wählen Sie die richtige Antwort für jede Frage aus und klicken Sie auf "Weiter", um zur nächsten Frage zu gelangen.
