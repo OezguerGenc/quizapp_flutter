@@ -46,6 +46,12 @@ class _MenuButtonState extends State<MenuButton>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: widget.width,
