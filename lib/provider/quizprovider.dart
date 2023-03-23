@@ -6,7 +6,19 @@ class QuizProvider with ChangeNotifier {
   final QuizModel quizModel = QuizModel();
   List<Question> questionlist = [];
 
-  Future initQuestions(String languageCode) async {
+  Future<bool> checkForUpdates(String languageCode) async {
+    return await quizModel.checkForUpdates(languageCode);
+  }
+
+  Future<bool> checkSavedQuestions(String languageCode) async {
+    return quizModel.checkSavedQuestions(languageCode);
+  }
+
+  String getContentVersion() {
+    return quizModel.version;
+  }
+
+  Future<void> initQuestions(String languageCode) async {
     questionlist = (await quizModel.loadQuestions(languageCode))!;
     notifyListeners();
   }
@@ -22,17 +34,31 @@ class QuizProvider with ChangeNotifier {
         .correct;
   }
 
+  void activateUpdateAvailable() {
+    quizModel.activateUpdateAvailable();
+    notifyListeners();
+  }
+
+  bool getUpdateAvailable() {
+    return quizModel.getUpdateAvailable();
+  }
+
   bool getLoadingQuestions() {
     return quizModel.loadingQuestions;
   }
 
   void loadingQuestionsStart() {
-    quizModel.loadingQuestions = true;
+    quizModel.loadingQuestionsStart();
     notifyListeners();
   }
 
   void loadingQuestionsCompleted() {
-    quizModel.loadingQuestions = false;
+    quizModel.loadingQuestionsCompleted();
+    notifyListeners();
+  }
+
+  Future<void> initContentVersion() async {
+    await quizModel.initContentVersion();
     notifyListeners();
   }
 
