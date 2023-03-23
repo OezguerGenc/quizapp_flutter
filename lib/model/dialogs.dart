@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterquizapp/provider/languageprovider.dart';
 import 'package:flutterquizapp/provider/networkprovider.dart';
 import 'package:flutterquizapp/provider/quizprovider.dart';
+import 'package:flutterquizapp/provider/updateprovider.dart';
 import 'package:flutterquizapp/ressource/strings.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -113,8 +114,11 @@ class Dialogs {
                       await context.read<QuizProvider>().initQuestions(
                           context.read<LanguageProvider>().getLanguageCode());
 
-                      await context.read<QuizProvider>().initContentVersion();
+                      await context.read<UpdateProvider>().initContentVersion();
 
+                      context
+                          .read<UpdateProvider>()
+                          .deactivateUpdateAvailable();
                       context.read<QuizProvider>().loadingQuestionsCompleted();
                     } else {
                       throw Exception(AppStrings.language[context
@@ -129,7 +133,7 @@ class Dialogs {
                     .read<LanguageProvider>()
                     .getLanguageCode()]!["update_downloadbtn"])),
           ],
-          content: Text(context.watch<QuizProvider>().quizModel.updateText),
+          content: Text(context.watch<UpdateProvider>().getUpdateText()),
         );
       },
     );
