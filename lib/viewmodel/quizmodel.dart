@@ -41,7 +41,7 @@ class QuizModel {
     final prefs = await SharedPreferences.getInstance();
     databaseRef = FirebaseDatabase.instance.ref().child("contentVersion");
 
-    if (updateAvailable == false) {
+    if (updateAvailable) {
       await databaseRef.once().then((snapshot) {
         var data = snapshot.snapshot;
         if (data.value == null) {

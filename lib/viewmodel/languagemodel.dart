@@ -14,11 +14,11 @@ class LanguageModel {
 
     if (prefs.getString("language") != null &&
         prefs.getString("language") != languageTitle) {
-      switchLanguage(prefs.getString("language")!);
+      await switchLanguage(prefs.getString("language")!);
     }
   }
 
-  void switchLanguage(String newlanguageTitle) async {
+  Future<void> switchLanguage(String newlanguageTitle) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString("language", newlanguageTitle);
     languageTitle = newlanguageTitle;

@@ -100,7 +100,9 @@ class _MainScreenState extends State<MainScreen> {
                           color: Colors.white,
                         ),
                         onPressed: () {
-                          Dialogs().openLanguageSelectionDialog(context);
+                          Dialogs().openLanguageSelectionDialog(context, () {
+                            setState(() {});
+                          });
                         },
                       ),
                     ),
@@ -147,6 +149,12 @@ class _MainScreenState extends State<MainScreen> {
                                             .read<LanguageProvider>()
                                             .getLanguageCode()
                                             .toUpperCase())) {
+                                      await context
+                                          .read<QuizProvider>()
+                                          .quizModel
+                                          .initUpdateText(context
+                                              .read<LanguageProvider>()
+                                              .getLanguageCode());
                                       Dialogs().openUpdateDialog(context);
                                     } else {
                                       context

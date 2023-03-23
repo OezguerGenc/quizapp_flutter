@@ -9,8 +9,8 @@ class LanguageProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void switchLanguage(String newlanguageTitle) {
-    languageModel.switchLanguage(newlanguageTitle);
+  Future<void> switchLanguage(String newlanguageTitle) async {
+    await languageModel.switchLanguage(newlanguageTitle);
     notifyListeners();
   }
 
