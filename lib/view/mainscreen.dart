@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterquizapp/model/dialogs.dart';
 import 'package:flutterquizapp/provider/languageprovider.dart';
 import 'package:flutterquizapp/provider/networkprovider.dart';
+import 'package:flutterquizapp/provider/updateprovider.dart';
 import 'package:flutterquizapp/ressource/strings.dart';
 import 'package:flutterquizapp/widget/menubutton.dart';
 import 'package:provider/provider.dart';
@@ -25,16 +26,16 @@ class _MainScreenState extends State<MainScreen> {
       try {
         print("initState");
         await context.read<LanguageProvider>().loadLastSelectedLanguage();
-        if (await context.read<QuizProvider>().checkForUpdates(
+        if (await context.read<UpdateProvider>().checkForUpdates(
             context.read<LanguageProvider>().getLanguageCode().toUpperCase())) {
-          await context.read<QuizProvider>().quizModel.initUpdateText(
+          await context.read<UpdateProvider>().initUpdateText(
               context.read<LanguageProvider>().getLanguageCode());
 
-          context.read<QuizProvider>().activateUpdateAvailable();
+          context.read<UpdateProvider>().activateUpdateAvailable();
 
           Dialogs().openUpdateDialog(context);
         } else {
-          context.read<QuizProvider>().initContentVersion();
+          context.read<UpdateProvider>().initContentVersion();
         }
       } catch (e) {
         Dialogs().openErrorDialog(context, e.toString());
@@ -66,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    context.watch<QuizProvider>().getUpdateAvailable()
+                    context.watch<UpdateProvider>().getUpdateAvailable()
                         ? SizedBox(
                             width: 50,
                             child: IconButton(
@@ -150,8 +151,7 @@ class _MainScreenState extends State<MainScreen> {
                                             .getLanguageCode()
                                             .toUpperCase())) {
                                       await context
-                                          .read<QuizProvider>()
-                                          .quizModel
+                                          .read<UpdateProvider>()
                                           .initUpdateText(context
                                               .read<LanguageProvider>()
                                               .getLanguageCode());
@@ -166,11 +166,14 @@ class _MainScreenState extends State<MainScreen> {
                                               .read<LanguageProvider>()
                                               .getLanguageCode());
                                       await context
-                                          .read<QuizProvider>()
+                                          .read<UpdateProvider>()
                                           .initContentVersion();
                                       context
                                           .read<QuizProvider>()
                                           .loadingQuestionsCompleted();
+                                      context
+                                          .read<UpdateProvider>()
+                                          .deactivateUpdateAvailable();
                                       Navigator.pushNamed(
                                           context, "quizscreen");
                                     }
@@ -216,7 +219,9 @@ class _MainScreenState extends State<MainScreen> {
                           child: Padding(
                             padding: EdgeInsets.all(10),
                             child: Text(
-                              context.watch<QuizProvider>().getContentVersion(),
+                              context
+                                  .watch<UpdateProvider>()
+                                  .getContentVersion(),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.white,

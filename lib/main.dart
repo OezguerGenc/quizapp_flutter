@@ -3,6 +3,7 @@ import 'package:flutterquizapp/provider/languageprovider.dart';
 import 'package:flutterquizapp/provider/networkprovider.dart';
 import 'package:flutterquizapp/provider/quizprovider.dart';
 import 'package:flutterquizapp/provider/statsprovider.dart';
+import 'package:flutterquizapp/provider/updateprovider.dart';
 import 'package:flutterquizapp/view/mainscreen.dart';
 import 'package:flutterquizapp/view/quizscreen.dart';
 import 'package:flutterquizapp/view/statsscreen.dart';
@@ -18,6 +19,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => StatsProvider()),
       ChangeNotifierProvider(create: (_) => LanguageProvider()),
       ChangeNotifierProvider(create: (_) => NetworkProvider()),
+      ChangeNotifierProvider(create: (_) => UpdateProvider()),
     ],
     child: const MyApp(),
   ));
