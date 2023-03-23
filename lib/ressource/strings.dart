@@ -21,7 +21,7 @@ class AppStrings {
       'update_laterbtn': 'Später',
       'update_downloadbtn': 'Herunterladen',
       'update_load_first_time':
-          'Fragen müssen für diese Sprache geladen werden.',
+          'Fragen und Sprache muss heruntergeladen werden bevor Sie das Quiz starten können.',
       //Exception
       'exception_network_connection':
           'Sie müssen für diese Aktion mit dem Internet verbunden sein.',
@@ -47,7 +47,7 @@ class AppStrings {
       'update_laterbtn': 'Later',
       'update_downloadbtn': 'Download',
       'update_load_first_time':
-          'Questions need to be loaded for this language.',
+          'Questions and language must be downloaded before you can start the quiz.',
       //Exception
       'exception_network_connection':
           'You must be connected to the Internet for this action.',
