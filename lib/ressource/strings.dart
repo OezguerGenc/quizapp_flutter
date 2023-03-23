@@ -14,7 +14,14 @@ class AppStrings {
       'stats_appbar_title': 'Statistik',
       'stats_right_answers': 'Richtige Antworten',
       'stats_not_right_answers': 'Falsche Antworten',
-      'stats_mainmenubtn': 'Hauptmenü'
+      'stats_mainmenubtn': 'Hauptmenü',
+      //Update
+      'update_title': 'Update verfügbar!',
+      'update_text': 'Ein Update ist verfügbar!',
+      'update_laterbtn': 'Später',
+      'update_downloadbtn': 'Herunterladen',
+      'update_load_first_time':
+          'Fragen müssen für diese Sprache geladen werden.',
     },
     'en': {
       //Mainmenu
@@ -30,7 +37,14 @@ class AppStrings {
       'stats_appbar_title': 'Statistic',
       'stats_right_answers': 'Correct answers',
       'stats_not_right_answers': 'Wrong answers',
-      'stats_mainmenubtn': 'Mainmenu'
+      'stats_mainmenubtn': 'Mainmenu',
+      //Update
+      'update_title': 'Update available!',
+      'update_text': 'An update is available!',
+      'update_laterbtn': 'Later',
+      'update_downloadbtn': 'Download',
+      'update_load_first_time':
+          'Questions need to be loaded for this language.',
     },
   };
 }
