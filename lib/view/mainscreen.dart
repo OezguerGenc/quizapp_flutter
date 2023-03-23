@@ -19,6 +19,28 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      try {
+        if (await context.read<QuizProvider>().checkForUpdates(
+            context.read<LanguageProvider>().getLanguageCode().toUpperCase())) {
+          await context.read<QuizProvider>().quizModel.initUpdateText(
+              context.read<LanguageProvider>().getLanguageCode());
+
+          context.read<QuizProvider>().activateUpdateAvailable();
+
+          _openUpdateDialog();
+        } else {
+          context.read<QuizProvider>().initContentVersion();
+        }
+      } catch (e) {
+        _openErrorDialog(context, e.toString());
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
@@ -42,9 +64,22 @@ class _MainScreenState extends State<MainScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      width: 50,
-                    ),
+                    context.watch<QuizProvider>().getUpdateAvailable()
+                        ? SizedBox(
+                            width: 50,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.file_download,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                _openUpdateDialog();
+                              },
+                            ),
+                          )
+                        : SizedBox(
+                            width: 50,
+                          ),
                     SizedBox(
                       child: Text(
                           AppStrings.language[context
@@ -99,44 +134,34 @@ class _MainScreenState extends State<MainScreen> {
                                     .getLanguageCode()]!["mainmenu_startbtn"],
                                 animated: true,
                                 onPressed: () async {
-                                  context
-                                      .read<QuizProvider>()
-                                      .loadingQuestionsStart();
                                   try {
-                                    await context
+                                    if (await context
                                         .read<QuizProvider>()
-                                        .initQuestions(context
+                                        .checkSavedQuestions(context
                                             .read<LanguageProvider>()
-                                            .getLanguageCode());
-                                    if (context
-                                        .read<QuizProvider>()
-                                        .questionlist
-                                        .isNotEmpty) {
+                                            .getLanguageCode()
+                                            .toUpperCase())) {
+                                      _openUpdateDialog();
+                                    } else {
+                                      context
+                                          .read<QuizProvider>()
+                                          .loadingQuestionsStart();
+                                      await context
+                                          .read<QuizProvider>()
+                                          .initQuestions(context
+                                              .read<LanguageProvider>()
+                                              .getLanguageCode());
+                                      await context
+                                          .read<QuizProvider>()
+                                          .initContentVersion();
                                       context
                                           .read<QuizProvider>()
                                           .loadingQuestionsCompleted();
                                       Navigator.pushNamed(
                                           context, "quizscreen");
                                     }
-                                  } catch (e) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                        title: const Text('Fehler'),
-                                        content: Text(e.toString()),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () => {
-                                              context
-                                                  .read<QuizProvider>()
-                                                  .loadingQuestionsCompleted(),
-                                              Navigator.pop(context)
-                                            },
-                                            child: const Text('OK'),
-                                          ),
-                                        ],
-                                      ),
-                                    );
+                                  } catch (error) {
+                                    _openErrorDialog(context, error.toString());
                                   }
                                 },
                               ),
@@ -150,24 +175,43 @@ class _MainScreenState extends State<MainScreen> {
                                           .getLanguageCode()]![
                                       "mainmenu_creditsbtn"],
                                   width: 250,
-                                  onPressed: () {})
+                                  onPressed: () async {
+                                    final prefs =
+                                        await SharedPreferences.getInstance();
+                                    prefs.clear();
+                                  })
                             ],
                           ),
-                    SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 40.0),
-                        child: Text(
-                          AppStrings.language[context
-                              .read<LanguageProvider>()
-                              .getLanguageCode()]!["mainmenu_madeby"],
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
+                    Column(
+                      children: [
+                        SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: Text(
+                            AppStrings.language[context
+                                .read<LanguageProvider>()
+                                .getLanguageCode()]!["mainmenu_madeby"],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
+                        SizedBox(
+                          width: 200,
+                          height: 50,
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              context.watch<QuizProvider>().getContentVersion(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -175,6 +219,25 @@ class _MainScreenState extends State<MainScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _openErrorDialog(BuildContext context, String errormessage) {
+    showDialog(
+      context: context,
+      builder: (context2) => AlertDialog(
+        title: const Text('Fehler'),
+        content: Text(errormessage),
+        actions: [
+          TextButton(
+            onPressed: () => {
+              context.read<QuizProvider>().loadingQuestionsCompleted(),
+              Navigator.pop(context)
+            },
+            child: const Text('OK'),
+          ),
+        ],
       ),
     );
   }
@@ -200,7 +263,7 @@ class _MainScreenState extends State<MainScreen> {
                       .getAvailableLanguages()[index]),
                   trailing: Image.asset(
                       context.read<LanguageProvider>().getFlagImagePath(index)),
-                  onTap: () {
+                  onTap: () async {
                     // Hier wird der Code ausgeführt, wenn eine Sprache ausgewählt wird
                     context.read<LanguageProvider>().switchLanguage(context
                         .read<LanguageProvider>()
@@ -208,8 +271,21 @@ class _MainScreenState extends State<MainScreen> {
                     context.read<QuizProvider>().changeQuestionListPath(context
                         .read<LanguageProvider>()
                         .getAvailableLanguages()[index]);
+
+                    if (await context.read<QuizProvider>().checkForUpdates(
+                        context.read<LanguageProvider>().getLanguageCode())) {
+                      await context
+                          .read<QuizProvider>()
+                          .quizModel
+                          .initUpdateText(context
+                              .read<LanguageProvider>()
+                              .getLanguageCode());
+                      Navigator.pop(context);
+                      _openUpdateDialog();
+                    } else {
+                      Navigator.pop(context);
+                    }
                     setState(() {});
-                    Navigator.pop(context);
                   },
                 );
               },
@@ -224,5 +300,52 @@ class _MainScreenState extends State<MainScreen> {
         print('Die ausgewählte Sprache ist: $selectedLanguage');
       }
     });
+  }
+
+  void _openUpdateDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context2) {
+        return AlertDialog(
+          title: Text(AppStrings.language[context
+              .read<LanguageProvider>()
+              .getLanguageCode()]!["update_title"]),
+          titleTextStyle: TextStyle(
+              fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),
+          actionsOverflowButtonSpacing: 20,
+          actions: [
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(AppStrings.language[context
+                    .read<LanguageProvider>()
+                    .getLanguageCode()]!["update_laterbtn"])),
+            ElevatedButton(
+                onPressed: () async {
+                  final SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+
+                  Navigator.pop(context);
+                  await prefs.remove(
+                      "questionlist${context.read<LanguageProvider>().getLanguageCode().toUpperCase()}");
+
+                  context.read<QuizProvider>().loadingQuestionsStart();
+
+                  await context.read<QuizProvider>().initQuestions(
+                      context.read<LanguageProvider>().getLanguageCode());
+
+                  await context.read<QuizProvider>().initContentVersion();
+
+                  context.read<QuizProvider>().loadingQuestionsCompleted();
+                },
+                child: Text(AppStrings.language[context
+                    .read<LanguageProvider>()
+                    .getLanguageCode()]!["update_downloadbtn"])),
+          ],
+          content: Text(context.watch<QuizProvider>().quizModel.updateText),
+        );
+      },
+    );
   }
 }
