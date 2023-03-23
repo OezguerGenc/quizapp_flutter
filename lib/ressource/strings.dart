@@ -22,6 +22,9 @@ class AppStrings {
       'update_downloadbtn': 'Herunterladen',
       'update_load_first_time':
           'Fragen müssen für diese Sprache geladen werden.',
+      //Exception
+      'exception_network_connection':
+          'Sie müssen für diese Aktion mit dem Internet verbunden sein.',
     },
     'en': {
       //Mainmenu
@@ -45,6 +48,9 @@ class AppStrings {
       'update_downloadbtn': 'Download',
       'update_load_first_time':
           'Questions need to be loaded for this language.',
+      //Exception
+      'exception_network_connection':
+          'You must be connected to the Internet for this action.',
     },
   };
 }
