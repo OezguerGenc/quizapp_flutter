@@ -72,7 +72,7 @@ class _MenuButtonState extends State<MenuButton>
                 builder: (BuildContext context, Widget? child) {
                   return Text(
                     widget.btnText,
-                    style: GoogleFonts.cabinSketch(
+                    style: TextStyle(
                       fontSize: _animation.value,
                       color: Colors.white,
                     ),
@@ -81,7 +81,7 @@ class _MenuButtonState extends State<MenuButton>
               )
             : Text(
                 widget.btnText,
-                style: GoogleFonts.cabinSketch(
+                style: TextStyle(
                   fontSize: widget.fontSize,
                   color: Colors.white,
                 ),

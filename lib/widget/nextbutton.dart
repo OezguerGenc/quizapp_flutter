@@ -29,7 +29,7 @@ class NextButton extends StatelessWidget {
             AppStrings.language[context
                 .read<LanguageProvider>()
                 .getLanguageCode()]!["quiz_nextquestionbtn"],
-            style: GoogleFonts.cabinSketch(
+            style: TextStyle(
               fontSize: 40,
               color: Colors.white,
             ),
