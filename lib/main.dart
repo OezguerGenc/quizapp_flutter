@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterquizapp/provider/languageprovider.dart';
+import 'package:flutterquizapp/provider/networkprovider.dart';
 import 'package:flutterquizapp/provider/quizprovider.dart';
 import 'package:flutterquizapp/provider/statsprovider.dart';
 import 'package:flutterquizapp/view/mainscreen.dart';
@@ -16,6 +17,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => QuizProvider()),
       ChangeNotifierProvider(create: (_) => StatsProvider()),
       ChangeNotifierProvider(create: (_) => LanguageProvider()),
+      ChangeNotifierProvider(create: (_) => NetworkProvider()),
     ],
     child: const MyApp(),
   ));
