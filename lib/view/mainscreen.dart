@@ -22,6 +22,8 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       try {
+        print("initState");
+        await context.read<LanguageProvider>().loadLastSelectedLanguage();
         if (await context.read<QuizProvider>().checkForUpdates(
             context.read<LanguageProvider>().getLanguageCode().toUpperCase())) {
           await context.read<QuizProvider>().quizModel.initUpdateText(
