@@ -31,7 +31,7 @@ class DefaultButton extends StatelessWidget {
           onPressed: onPressed,
           child: Text(
             btnText,
-            style: GoogleFonts.cabinSketch(
+            style: TextStyle(
               fontSize: 40,
               color: Colors.white,
             ),

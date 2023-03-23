@@ -1,11 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterquizapp/provider/languageprovider.dart';
+import 'package:flutterquizapp/provider/networkprovider.dart';
 import 'package:flutterquizapp/ressource/strings.dart';
 import 'package:flutterquizapp/widget/menubutton.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../provider/quizprovider.dart';
@@ -116,19 +115,23 @@ class _MainScreenState extends State<MainScreen> {
                               .read<LanguageProvider>()
                               .getLanguageCode()]!["mainmenu_title"],
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.cabinSketch(
+                          style: TextStyle(
                             fontSize: 50,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           )),
                     ),
-                    context.watch<QuizProvider>().quizModel.loadingQuestions
-                        ? Platform.isAndroid
-                            ? const CircularProgressIndicator()
-                            : const CupertinoActivityIndicator()
-                        : Column(
-                            children: [
-                              MenuButton(
+                    Column(
+                      children: [
+                        context.watch<QuizProvider>().quizModel.loadingQuestions
+                            ? Platform.isAndroid
+                                ? Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 20),
+                                    child: const CircularProgressIndicator(),
+                                  )
+                                : const CupertinoActivityIndicator()
+                            : MenuButton(
                                 btnText: AppStrings.language[context
                                     .read<LanguageProvider>()
                                     .getLanguageCode()]!["mainmenu_startbtn"],
@@ -165,19 +168,17 @@ class _MainScreenState extends State<MainScreen> {
                                   }
                                 },
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                              ),
-                              MenuButton(
-                                  btnText: AppStrings.language[context
-                                          .read<LanguageProvider>()
-                                          .getLanguageCode()]![
-                                      "mainmenu_creditsbtn"],
-                                  width: 250,
-                                  onPressed: () async {})
-                            ],
-                          ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                        ),
+                        MenuButton(
+                            btnText: AppStrings.language[context
+                                .read<LanguageProvider>()
+                                .getLanguageCode()]!["mainmenu_creditsbtn"],
+                            width: 250,
+                            onPressed: () async {})
+                      ],
+                    ),
                     Column(
                       children: [
                         SizedBox(
@@ -319,21 +320,33 @@ class _MainScreenState extends State<MainScreen> {
                     .getLanguageCode()]!["update_laterbtn"])),
             ElevatedButton(
                 onPressed: () async {
-                  final SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
+                  try {
+                    if (await context
+                        .read<NetworkProvider>()
+                        .connectedWithNetwork()) {
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
 
-                  Navigator.pop(context);
-                  await prefs.remove(
-                      "questionlist${context.read<LanguageProvider>().getLanguageCode().toUpperCase()}");
+                      Navigator.pop(context);
+                      await prefs.remove(
+                          "questionlist${context.read<LanguageProvider>().getLanguageCode().toUpperCase()}");
 
-                  context.read<QuizProvider>().loadingQuestionsStart();
+                      context.read<QuizProvider>().loadingQuestionsStart();
 
-                  await context.read<QuizProvider>().initQuestions(
-                      context.read<LanguageProvider>().getLanguageCode());
+                      await context.read<QuizProvider>().initQuestions(
+                          context.read<LanguageProvider>().getLanguageCode());
 
-                  await context.read<QuizProvider>().initContentVersion();
+                      await context.read<QuizProvider>().initContentVersion();
 
-                  context.read<QuizProvider>().loadingQuestionsCompleted();
+                      context.read<QuizProvider>().loadingQuestionsCompleted();
+                    } else {
+                      throw Exception(AppStrings.language[context
+                          .read<LanguageProvider>()
+                          .getLanguageCode()]!["exception_network_connection"]);
+                    }
+                  } catch (e) {
+                    _openErrorDialog(context, e.toString());
+                  }
                 },
                 child: Text(AppStrings.language[context
                     .read<LanguageProvider>()
