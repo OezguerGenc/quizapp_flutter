@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterquizapp/model/dialogs.dart';
 import 'package:flutterquizapp/provider/languageprovider.dart';
 import 'package:flutterquizapp/provider/networkprovider.dart';
+import 'package:flutterquizapp/provider/themeprovider.dart';
 import 'package:flutterquizapp/provider/updateprovider.dart';
 import 'package:flutterquizapp/ressource/strings.dart';
 import 'package:flutterquizapp/widget/menubutton.dart';
@@ -52,7 +53,10 @@ class _MainScreenState extends State<MainScreen> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Colors.red, Colors.blue],
+            colors: [
+              Theme.of(context).primaryColor,
+              Theme.of(context).hintColor
+            ],
           ),
         ),
         child: Padding(
@@ -80,9 +84,31 @@ class _MainScreenState extends State<MainScreen> {
                               },
                             ),
                           )
-                        : SizedBox(
-                            width: 50,
-                          ),
+                        : context.read<ThemeProvider>().isDarkMode
+                            ? SizedBox(
+                                width: 50,
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.light_mode,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    context.read<ThemeProvider>().toggleTheme();
+                                  },
+                                ),
+                              )
+                            : SizedBox(
+                                width: 50,
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.dark_mode,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    context.read<ThemeProvider>().toggleTheme();
+                                  },
+                                ),
+                              ),
                     SizedBox(
                       child: Text(
                           AppStrings.language[context
@@ -192,9 +218,12 @@ class _MainScreenState extends State<MainScreen> {
                                 .getLanguageCode()]!["mainmenu_creditsbtn"],
                             width: 250,
                             onPressed: () async {
+                              context.read<ThemeProvider>().toggleTheme();
+                              /*
                               final prefs =
                                   await SharedPreferences.getInstance();
                               prefs.clear();
+                              */
                             })
                       ],
                     ),

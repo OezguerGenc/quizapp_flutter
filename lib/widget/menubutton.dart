@@ -61,7 +61,7 @@ class _MenuButtonState extends State<MenuButton>
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Colors.blue, Colors.redAccent],
+          colors: [Theme.of(context).hintColor, Theme.of(context).primaryColor],
         ),
       ),
       child: ElevatedButton(

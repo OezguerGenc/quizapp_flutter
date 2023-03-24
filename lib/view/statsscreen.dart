@@ -20,7 +20,10 @@ class StatsScreen extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Colors.red, Colors.blue],
+              colors: [
+                Theme.of(context).primaryColor,
+                Theme.of(context).hintColor
+              ],
             ),
           ),
           child: Column(
