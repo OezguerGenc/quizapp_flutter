@@ -3,6 +3,7 @@ import 'package:flutterquizapp/provider/languageprovider.dart';
 import 'package:flutterquizapp/provider/networkprovider.dart';
 import 'package:flutterquizapp/provider/quizprovider.dart';
 import 'package:flutterquizapp/provider/statsprovider.dart';
+import 'package:flutterquizapp/provider/themeprovider.dart';
 import 'package:flutterquizapp/provider/updateprovider.dart';
 import 'package:flutterquizapp/view/mainscreen.dart';
 import 'package:flutterquizapp/view/quizscreen.dart';
@@ -20,6 +21,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => LanguageProvider()),
       ChangeNotifierProvider(create: (_) => NetworkProvider()),
       ChangeNotifierProvider(create: (_) => UpdateProvider()),
+      ChangeNotifierProvider(create: (_) => ThemeProvider()),
     ],
     child: const MyApp(),
   ));
@@ -30,18 +32,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       title: 'Flutter Quiz App',
+      darkTheme: themeProvider.getTheme(),
       initialRoute: "/",
       routes: {
         "/": (context) => MainScreen(),
         "quizscreen": (context) => QuizScreen(),
         "statsscreen": (context) => StatsScreen(),
       },
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: themeProvider.getTheme(),
     );
   }
 }
