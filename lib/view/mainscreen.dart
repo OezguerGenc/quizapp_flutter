@@ -9,6 +9,7 @@ import 'package:flutterquizapp/provider/updateprovider.dart';
 import 'package:flutterquizapp/ressource/strings.dart';
 import 'package:flutterquizapp/widget/buttonmenu.dart';
 import 'package:flutterquizapp/widget/menubutton.dart';
+import 'package:flutterquizapp/widget/topbar.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../provider/quizprovider.dart';
@@ -66,77 +67,7 @@ class _MainScreenState extends State<MainScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                height: 50,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    context.watch<UpdateProvider>().getUpdateAvailable()
-                        ? SizedBox(
-                            width: 50,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.file_download,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                Dialogs().openUpdateDialog(context);
-                              },
-                            ),
-                          )
-                        : context.read<ThemeProvider>().isDarkMode
-                            ? SizedBox(
-                                width: 50,
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.light_mode,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () {
-                                    context.read<ThemeProvider>().toggleTheme();
-                                  },
-                                ),
-                              )
-                            : SizedBox(
-                                width: 50,
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.dark_mode,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () {
-                                    context.read<ThemeProvider>().toggleTheme();
-                                  },
-                                ),
-                              ),
-                    SizedBox(
-                      child: Text(
-                          AppStrings.language[context
-                              .read<LanguageProvider>()
-                              .getLanguageCode()]!["mainmenu_appbar_title"],
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                    SizedBox(
-                      width: 50,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.language,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          Dialogs().openLanguageSelectionDialog(context, () {
-                            setState(() {});
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              MenuTopBar(),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
