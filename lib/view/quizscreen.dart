@@ -3,14 +3,14 @@ import 'package:flutterquizapp/provider/languageprovider.dart';
 import 'package:flutterquizapp/provider/quizprovider.dart';
 import 'package:flutterquizapp/provider/statsprovider.dart';
 import 'package:flutterquizapp/ressource/strings.dart';
-import 'package:flutterquizapp/widget/answerbutton.dart';
-import 'package:flutterquizapp/widget/nextbutton.dart';
+import 'package:flutterquizapp/widget/buttons/answerbutton.dart';
+import 'package:flutterquizapp/widget/buttons/nextbutton.dart';
 import 'package:flutterquizapp/widget/questioncard.dart';
 import 'package:flutterquizapp/widget/topbar.dart';
 import 'package:provider/provider.dart';
 
 class QuizScreen extends StatelessWidget {
-  QuizScreen({Key? key}) : super(key: key);
+  const QuizScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

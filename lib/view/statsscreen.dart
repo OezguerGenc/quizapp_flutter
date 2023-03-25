@@ -3,7 +3,7 @@ import 'package:flutterquizapp/provider/languageprovider.dart';
 import 'package:flutterquizapp/provider/quizprovider.dart';
 import 'package:flutterquizapp/provider/statsprovider.dart';
 import 'package:flutterquizapp/ressource/strings.dart';
-import 'package:flutterquizapp/widget/defaultbutton.dart';
+import 'package:flutterquizapp/widget/buttons/defaultbutton.dart';
 import 'package:flutterquizapp/widget/statsoverview.dart';
 import 'package:flutterquizapp/widget/topbar.dart';
 import 'package:provider/provider.dart';
