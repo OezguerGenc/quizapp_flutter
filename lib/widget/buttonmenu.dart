@@ -8,7 +8,7 @@ import 'package:flutterquizapp/provider/quizprovider.dart';
 import 'package:flutterquizapp/provider/themeprovider.dart';
 import 'package:flutterquizapp/provider/updateprovider.dart';
 import 'package:flutterquizapp/ressource/strings.dart';
-import 'package:flutterquizapp/widget/menubutton.dart';
+import 'package:flutterquizapp/widget/buttons/menubutton.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
