@@ -1,18 +1,13 @@
-import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterquizapp/model/dialogs.dart';
 import 'package:flutterquizapp/provider/languageprovider.dart';
-import 'package:flutterquizapp/provider/networkprovider.dart';
-import 'package:flutterquizapp/provider/themeprovider.dart';
 import 'package:flutterquizapp/provider/updateprovider.dart';
 import 'package:flutterquizapp/ressource/strings.dart';
 import 'package:flutterquizapp/widget/buttonmenu.dart';
-import 'package:flutterquizapp/widget/menubutton.dart';
+import 'package:flutterquizapp/widget/menubottom.dart';
+import 'package:flutterquizapp/widget/screentitle.dart';
 import 'package:flutterquizapp/widget/topbar.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../provider/quizprovider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -67,58 +62,25 @@ class _MainScreenState extends State<MainScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              MenuTopBar(),
+              const MenuTopBar(),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 50),
-                      child: Text(
-                          AppStrings.language[context
+                        padding: const EdgeInsets.only(top: 50),
+                        child: ScreenTitle(
+                          titletext: AppStrings.language[context
                               .read<LanguageProvider>()
                               .getLanguageCode()]!["mainmenu_title"],
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 50,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ),
-                    ButtonMenu(),
-                    Column(
-                      children: [
-                        SizedBox(
-                          width: 100,
-                          height: 100,
-                          child: Text(
-                            AppStrings.language[context
-                                .read<LanguageProvider>()
-                                .getLanguageCode()]!["mainmenu_madeby"],
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 200,
-                          height: 50,
-                          child: Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              context
-                                  .watch<UpdateProvider>()
-                                  .getContentVersion(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                        )),
+                    const ButtonMenu(),
+                    MenuBottom(
+                        madeByText: AppStrings.language[context
+                            .read<LanguageProvider>()
+                            .getLanguageCode()]!["mainmenu_madeby"],
+                        contentVerrsionText:
+                            context.watch<UpdateProvider>().getContentVersion())
                   ],
                 ),
               ),
