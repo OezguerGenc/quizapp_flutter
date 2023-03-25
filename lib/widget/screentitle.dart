@@ -1,8 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterquizapp/provider/languageprovider.dart';
-import 'package:flutterquizapp/ressource/strings.dart';
-import 'package:provider/provider.dart';
 
 class ScreenTitle extends StatelessWidget {
   final String titletext;
