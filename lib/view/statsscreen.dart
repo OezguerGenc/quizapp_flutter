@@ -5,6 +5,7 @@ import 'package:flutterquizapp/provider/statsprovider.dart';
 import 'package:flutterquizapp/ressource/strings.dart';
 import 'package:flutterquizapp/widget/defaultbutton.dart';
 import 'package:flutterquizapp/widget/statsoverview.dart';
+import 'package:flutterquizapp/widget/topbar.dart';
 import 'package:provider/provider.dart';
 
 class StatsScreen extends StatelessWidget {
@@ -30,30 +31,11 @@ class StatsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                height: 50,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 50,
-                    ),
-                    SizedBox(
-                      child: Text(
-                          AppStrings.language[context
-                              .read<LanguageProvider>()
-                              .getLanguageCode()]!["stats_appbar_title"],
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 34,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                    SizedBox(
-                      width: 50,
-                    ),
-                  ],
-                ),
+              TopBar(
+                title: AppStrings.language[context
+                    .read<LanguageProvider>()
+                    .getLanguageCode()]!["stats_appbar_title"],
+                fontSize: 34,
               ),
               StatsOverView(),
               DefaultButton(

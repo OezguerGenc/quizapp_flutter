@@ -21,9 +21,9 @@ class ButtonMenu extends StatelessWidget {
       children: [
         context.watch<QuizProvider>().quizModel.loadingQuestions
             ? Platform.isAndroid
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: const CircularProgressIndicator(),
+                ? const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: CircularProgressIndicator(),
                   )
                 : const CupertinoActivityIndicator()
             : MenuButton(
@@ -57,8 +57,8 @@ class ButtonMenu extends StatelessWidget {
                   }
                 },
               ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
         ),
         MenuButton(
             btnText: AppStrings.language[context

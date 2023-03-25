@@ -6,6 +6,7 @@ import 'package:flutterquizapp/ressource/strings.dart';
 import 'package:flutterquizapp/widget/answerbutton.dart';
 import 'package:flutterquizapp/widget/nextbutton.dart';
 import 'package:flutterquizapp/widget/questioncard.dart';
+import 'package:flutterquizapp/widget/topbar.dart';
 import 'package:provider/provider.dart';
 
 class QuizScreen extends StatelessWidget {
@@ -30,33 +31,11 @@ class QuizScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Container(
-                height: 50,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 50,
-                    ),
-                    SizedBox(
-                      child: Text(
-                          AppStrings.language[context
-                              .read<LanguageProvider>()
-                              .getLanguageCode()]!["quiz_appbar_title"],
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                    SizedBox(
-                      width: 50,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                padding: const EdgeInsets.only(top: 20),
+                child: TopBar(
+                    title: AppStrings.language[context
+                        .read<LanguageProvider>()
+                        .getLanguageCode()]!["quiz_appbar_title"])),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
