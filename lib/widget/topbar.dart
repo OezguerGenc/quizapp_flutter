@@ -93,7 +93,12 @@ class _MenuTopBarState extends State<MenuTopBar> {
 class TopBar extends StatefulWidget {
   final String title;
   final Color textcolor;
-  const TopBar({super.key, required this.title, this.textcolor = Colors.white});
+  final double? fontSize;
+  const TopBar(
+      {super.key,
+      required this.title,
+      this.textcolor = Colors.white,
+      this.fontSize = 24});
 
   @override
   State<TopBar> createState() => _TopBarState();
@@ -115,7 +120,7 @@ class _TopBarState extends State<TopBar> {
             child: Text(widget.title,
                 style: TextStyle(
                     color: widget.textcolor,
-                    fontSize: 24,
+                    fontSize: widget.fontSize,
                     fontWeight: FontWeight.bold)),
           ),
           const SizedBox(
