@@ -1,13 +1,15 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutterquizapp/model/answer.dart';
 import 'package:flutterquizapp/model/question.dart';
-import 'package:flutterquizapp/ressource/strings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutterquizapp/model/category.dart';
 
 class QuizModel {
   DatabaseReference databaseRef = FirebaseDatabase.instance.ref();
   List<bool> isSelectedList = [true, false];
+  int categoryCount = 0;
   int questionindex = 0;
+  int categoryindex = 0;
   int isSelectedIndex = 0;
   bool loadingQuestions = false;
   String questionListPath = "questions";
@@ -15,12 +17,21 @@ class QuizModel {
   Future<bool> checkSavedQuestions(String languageCode) async {
     final prefs = await SharedPreferences.getInstance();
 
-    return prefs.getStringList("questionlist${languageCode.toUpperCase()}") ==
+    print("CHECK SAVED QUESTIONS = " +
+        (prefs.getStringList("categorylist${languageCode.toUpperCase()}") ==
+                null)
+            .toString());
+
+    return prefs.getStringList("categorylist${languageCode.toUpperCase()}") ==
         null;
   }
 
   Future<int> getQuestListLength() async {
-    databaseRef = FirebaseDatabase.instance.ref().child(questionListPath);
+    databaseRef = FirebaseDatabase.instance
+        .ref()
+        .child(questionListPath)
+        .child("0")
+        .child("questions");
     int questionListLength = 0;
     await databaseRef.once().then((snapshot) {
       var data = snapshot.snapshot;
@@ -29,61 +40,77 @@ class QuizModel {
     return questionListLength;
   }
 
-  Future<List<Question>?> loadQuestions(String languageCode) async {
+  Future<void> initCategoryCount() async {
     databaseRef = FirebaseDatabase.instance.ref().child(questionListPath);
     final prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getInt("categorycount") == null) {
+      await databaseRef.once().then((snapshot) {
+        var data = snapshot.snapshot;
+        int count = data.children.length;
+        categoryCount = count;
+        prefs.setInt("categorycount", count);
+      });
+    } else {
+      categoryCount = prefs.getInt("categorycount")!;
+    }
+  }
+
+  Future<List<Category>> loadQuestions(String languageCode) async {
+    final prefs = await SharedPreferences.getInstance();
+    List<Category>? categorylist = [];
     List<Question>? questionlist = [];
     int questionListLength = await getQuestListLength();
+    DatabaseReference dbRef =
+        FirebaseDatabase.instance.ref().child(questionListPath);
 
-    if (await checkSavedQuestions(languageCode)) {
-      for (var i = 0; i < questionListLength; i++) {
-        if (await databaseRef
-                .child("$i/text")
-                .get()
-                .then((value) => value.value) !=
-            null) {
-          List<Answer> answers = [];
-          for (var j = 0; j < 4; j++) {
-            if (await databaseRef
-                    .child("$i/answer/$j/text")
-                    .get()
-                    .then((value) => value.value) !=
-                null) {
-              answers.add(Answer(
-                  await databaseRef
-                      .child("$i/answer/$j/correct")
-                      .get()
-                      .then((value) => value.value) as bool,
-                  await databaseRef
-                      .child("$i/answer/$j/text")
-                      .get()
-                      .then((value) => value.value.toString())));
+    await dbRef.once().then((value) async {
+      final data = value.snapshot;
+      if (await checkSavedQuestions(languageCode)) {
+        for (var k = 0; k < categoryCount; k++) {
+          for (var i = 0; i < questionListLength; i++) {
+            if (data.child("$k/questions/$i/text").value != null) {
+              List<Answer> answers = [];
+              for (var j = 0; j < 4; j++) {
+                if (data.child("$k/questions/$i/answer/$j/text").value !=
+                    null) {
+                  answers.add(Answer(
+                      data.child("$k/questions/$i/answer/$j/correct").value
+                          as bool,
+                      data
+                          .child("$k/questions/$i/answer/$j/text")
+                          .value
+                          .toString()));
+                } else {
+                  break;
+                }
+              }
+              questionlist!.add(Question(
+                  data.child("$k/questions/$i/text").value.toString(),
+                  answers));
+              print(questionlist![i].text);
             } else {
-              break;
+              throw Exception("Fehler beim herunterladen der Fragen");
             }
           }
-          questionlist.add(Question(
-              await databaseRef
-                  .child("$i/text")
-                  .get()
-                  .then((value) => value.value.toString()),
-              answers));
-          print(questionlist[i].text);
-        } else {
-          throw Exception("Fehler beim herunterladen der Fragen");
+          categorylist!.add(Category(
+              data.child("$k/categoryName").value.toString(), questionlist!));
+          questionlist = [];
         }
+
+        await prefs.setStringList("categorylist" + languageCode.toUpperCase(),
+            categorylist!.map((e) => e.toJson()).toList());
+
+        print("Category list filled");
+      } else {
+        List<String>? categoryStringList =
+            prefs.getStringList('categorylist' + languageCode.toUpperCase());
+
+        categorylist =
+            categoryStringList?.map((q) => Category.fromJson(q)).toList();
       }
-
-      await prefs.setStringList("questionlist" + languageCode.toUpperCase(),
-          questionlist.map((q) => q.toJson()).toList());
-    } else {
-      List<String>? questionStringList =
-          prefs.getStringList('questionlist' + languageCode.toUpperCase());
-      questionlist =
-          questionStringList?.map((q) => Question.fromJson(q)).toList();
-    }
-
-    return questionlist;
+    });
+    return categorylist!;
   }
 
   void toggleIsSelected(int index) {

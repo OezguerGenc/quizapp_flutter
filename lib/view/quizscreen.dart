@@ -42,7 +42,11 @@ class QuizScreen extends StatelessWidget {
                 QuestionCard(
                     text: context
                         .watch<QuizProvider>()
-                        .questionlist[
+                        .categorylist[context
+                            .read<QuizProvider>()
+                            .quizModel
+                            .categoryindex]
+                        .questions[
                             context.read<QuizProvider>().getQuestionIndex()]
                         .text),
                 Padding(
@@ -53,7 +57,11 @@ class QuizScreen extends StatelessWidget {
                       AnswerButton(
                           text: context
                               .watch<QuizProvider>()
-                              .questionlist[context
+                              .categorylist[context
+                                  .read<QuizProvider>()
+                                  .quizModel
+                                  .categoryindex]
+                              .questions[context
                                   .read<QuizProvider>()
                                   .getQuestionIndex()]
                               .answers[0]
@@ -68,7 +76,11 @@ class QuizScreen extends StatelessWidget {
                       AnswerButton(
                           text: context
                               .watch<QuizProvider>()
-                              .questionlist[context
+                              .categorylist[context
+                                  .read<QuizProvider>()
+                                  .quizModel
+                                  .categoryindex]
+                              .questions[context
                                   .read<QuizProvider>()
                                   .getQuestionIndex()]
                               .answers[1]

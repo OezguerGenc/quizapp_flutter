@@ -43,6 +43,7 @@ class ButtonMenu extends StatelessWidget {
                       Dialogs().openUpdateDialog(context);
                     } else {
                       context.read<QuizProvider>().loadingQuestionsStart();
+                      await context.read<QuizProvider>().initCategoryCount();
                       await context.read<QuizProvider>().initQuestions(
                           context.read<LanguageProvider>().getLanguageCode());
                       await context.read<UpdateProvider>().initContentVersion();
@@ -50,7 +51,7 @@ class ButtonMenu extends StatelessWidget {
                       context
                           .read<UpdateProvider>()
                           .deactivateUpdateAvailable();
-                      Navigator.pushNamed(context, "quizscreen");
+                      Navigator.pushNamed(context, "categoryscreen");
                     }
                   } catch (error) {
                     Dialogs().openErrorDialog(context, error.toString());
@@ -68,6 +69,12 @@ class ButtonMenu extends StatelessWidget {
             onPressed: () async {
               context.read<ThemeProvider>().toggleTheme();
 
+              print(await context
+                  .read<QuizProvider>()
+                  .quizModel
+                  .getQuestListLength());
+
+              //Navigator.pushNamed(context, "categoryscreen");
               final prefs = await SharedPreferences.getInstance();
               prefs.clear();
             })

@@ -8,14 +8,14 @@ class Answer {
 
   Map<String, dynamic> toMap() {
     return {
-      'isCorrect': correct,
+      'correct': correct,
       'text': text,
     };
   }
 
   factory Answer.fromMap(Map<String, dynamic> map) {
     return Answer(
-      map['isCorrect'],
+      map['correct'],
       map['text'],
     );
   }
