@@ -10,6 +10,8 @@ class AppStrings {
       //Quiz
       'quiz_appbar_title': 'Quiz',
       'quiz_nextquestionbtn': 'Nächste Frage',
+      //Category
+      'category_appbar_title': 'Kategorie',
       //Stats
       'stats_appbar_title': 'Statistik',
       'stats_right_answers': 'Richtige Antworten',
@@ -36,6 +38,8 @@ class AppStrings {
       //Quiz
       'quiz_appbar_title': 'Quiz',
       'quiz_nextquestionbtn': 'Next Question',
+      //Category
+      'category_appbar_title': 'Category',
       //Stats
       'stats_appbar_title': 'Statistic',
       'stats_right_answers': 'Correct answers',
