@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutterquizapp/model/answer.dart';
 
 class Question {
