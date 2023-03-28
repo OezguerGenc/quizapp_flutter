@@ -3,11 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 
 class DefaultButton extends StatelessWidget {
   final String btnText;
+  final double fontSize;
   final VoidCallback onPressed;
   final double width;
   const DefaultButton(
       {Key? key,
       required this.btnText,
+      this.fontSize = 40,
       this.width = 0,
       required this.onPressed})
       : super(key: key);
@@ -35,7 +37,7 @@ class DefaultButton extends StatelessWidget {
           child: Text(
             btnText,
             style: TextStyle(
-              fontSize: 40,
+              fontSize: fontSize,
               color: Colors.white,
             ),
           ),
