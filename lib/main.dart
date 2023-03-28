@@ -5,6 +5,7 @@ import 'package:flutterquizapp/provider/quizprovider.dart';
 import 'package:flutterquizapp/provider/statsprovider.dart';
 import 'package:flutterquizapp/provider/themeprovider.dart';
 import 'package:flutterquizapp/provider/updateprovider.dart';
+import 'package:flutterquizapp/view/categoryscreen.dart';
 import 'package:flutterquizapp/view/mainscreen.dart';
 import 'package:flutterquizapp/view/quizscreen.dart';
 import 'package:flutterquizapp/view/statsscreen.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/": (context) => MainScreen(),
         "quizscreen": (context) => QuizScreen(),
+        "categoryscreen": (context) => CategoryScreen(),
         "statsscreen": (context) => StatsScreen(),
       },
       theme: themeProvider.getTheme(),
