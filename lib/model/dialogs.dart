@@ -108,10 +108,10 @@ class Dialogs {
 
                     Navigator.pop(context);
                     await prefs.remove(
-                        "questionlist${context.read<LanguageProvider>().getLanguageCode().toUpperCase()}");
+                        "categorylist${context.read<LanguageProvider>().getLanguageCode().toUpperCase()}");
 
                     context.read<QuizProvider>().loadingQuestionsStart();
-
+                    await context.read<QuizProvider>().initCategoryCount();
                     await context.read<QuizProvider>().initQuestions(
                         context.read<LanguageProvider>().getLanguageCode());
 
