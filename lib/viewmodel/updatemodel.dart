@@ -17,7 +17,7 @@ class UpdateModel {
       if (data.value == null) {
         throw Exception("aktuelle version existiert nicht!");
       } else if (prefs.getString("contentVersion") == null ||
-          prefs.getStringList("questionlist${languageCode.toUpperCase()}") ==
+          prefs.getStringList("categorylist${languageCode.toUpperCase()}") ==
               null ||
           prefs.getString("contentVersion") != data.value.toString()) {
         updateAvailable = true;
@@ -56,7 +56,7 @@ class UpdateModel {
     databaseRef = FirebaseDatabase.instance
         .ref()
         .child("updateText${languageCode.toUpperCase()}");
-    if (prefs.getStringList("questionlist${languageCode.toUpperCase()}") ==
+    if (prefs.getStringList("categorylist${languageCode.toUpperCase()}") ==
         null) {
       print("UpdateText: " + updateText);
       updateText = AppStrings.language[languageCode]!["update_load_first_time"];
