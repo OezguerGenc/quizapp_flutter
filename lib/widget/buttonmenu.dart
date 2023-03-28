@@ -41,20 +41,16 @@ class ButtonMenu extends StatelessWidget {
                       await context.read<UpdateProvider>().initUpdateText(
                           context.read<LanguageProvider>().getLanguageCode());
                       Dialogs().openUpdateDialog(context);
-                      print("Check Saved Questions");
                     } else {
-                      print("Check Saved Questions ELSE");
                       context.read<QuizProvider>().loadingQuestionsStart();
                       await context.read<QuizProvider>().initCategoryCount();
                       await context.read<QuizProvider>().initQuestions(
                           context.read<LanguageProvider>().getLanguageCode());
-
                       await context.read<UpdateProvider>().initContentVersion();
                       context.read<QuizProvider>().loadingQuestionsCompleted();
                       context
                           .read<UpdateProvider>()
                           .deactivateUpdateAvailable();
-                      //Navigator.pushNamed(context, "quizscreen");
                       Navigator.pushNamed(context, "categoryscreen");
                     }
                   } catch (error) {
